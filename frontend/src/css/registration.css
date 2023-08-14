@@ -1,0 +1,68 @@
+/* Registration.css */
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.registration-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.registration-form {
+  width: 400px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #F6F4EB;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 3%;
+}
+
+.rs-form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rs-form-group-label {
+  font-weight: bold;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.rs-form-control {
+  padding: 10px;
+  border-radius: 4px;
+  width: auto;
+}
+
+.rs-form-control textarea {
+  height: auto;
+  min-height: 120px;
+}
+
+.rs-btn {
+  width: 50%;
+  cursor: pointer;
+  height: 35px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  transition: background-color 0.3s, color 0.3s, transform 0.3s; 
+}
+
+.rs-btn:hover {
+  background-color: cadetblue;
+  color: white;
+  transform: scale(1.05);
+}
