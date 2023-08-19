@@ -6,8 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt');
 const app = express();
 const PORT = process.env.PORT || 5000;
-const corsOptions = {
-  origin: 'http://localhost:3000', // Replace with your frontend's URL
+const corsOptions = {// Replace with your frontend's URL
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204,
@@ -24,10 +23,12 @@ const pool = new Pool({
   database: 'sweetDB'
 });
 
+// get the registration page
 app.get('/', (req, res) => {
   res.status(201);
 });
 
+// store and create an account
 app.post('/register', async (req, res) => {
   try {
     const { email, password, fullname, address, contactNumber } = req.body;
@@ -44,12 +45,39 @@ app.post('/register', async (req, res) => {
   }
 });
 
+// get the homepage
 app.get('/home', (req, res) => {
   res.status(200);
 })
 
+// we get the login page here
 app.get('/login', (req, res) => {
   res.status(200);
+})
+
+// we verify the user credentials to login the user
+app.post('/loginVerify', async(req, res) => {
+  try {
+    const {email, password} = req.body;
+    const query = 'SELECT * FROM users WHERE email=$1';
+    const result = await pool.query(query, [email]);
+    if(result.rows.length === 0){
+      // User not found
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+    const user = result.rows[0];
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+      // Password doesn't match
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    // Password matches, user is authenticated
+    res.status(200).json({ message: 'Login successful', user });
+  } catch (error) {
+    res.json(error);
+  }
 })
 
 app.listen(PORT, () => {
