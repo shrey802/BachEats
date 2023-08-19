@@ -1,3 +1,62 @@
-@import "rsuite/dist/rsuite.css";
-
-#root{ padding: 10px; }
+/* HomeComponent.css */
+.custom-navbar {
+    background-color: #C4C1A4; /* Dark background color */
+    /* Add a border at the bottom for separation */
+  }
+  
+  .custom-navbar .navbar-brand {
+    font-size: 28px; /* Increase the font size of the brand name */
+    color: #EA1179; /* Set the text color of the brand */
+  }
+  
+  .custom-navbar .nav-link {
+    color: #C70039; /* Set the text color of the links */
+    font-weight: 500; /* Add some font weight for better readability */
+    transition: color 0.3s, background-color 0.3s, border-radius 0.3s; /* Add smooth transitions */
+    padding: 10px 15px; /* Add padding to the links */
+  }
+  
+  .custom-navbar .nav-link:hover {
+    color: #343a40;
+    text-decoration: underline;
+  }
+  
+  .custom-navbar .navbar-toggler-icon {
+    background-color: #C70039; /* Change the color of the toggle icon */
+    border-radius: 4px; /* Rounded corners for the icon */
+  }
+  
+  .custom-navbar .navbar-toggler {
+    border-color: #f8f9fa; /* Change the border color of the toggle button */
+  }
+  
+  .main-container {
+    position: relative;
+  }
+  
+  .image-content {
+    flex: 1;
+    height: 100vh; /* Set the height to 100% of the viewport height */
+    background-image: url('https://images.unsplash.com/photo-1609540969455-ad5ea19be121?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80');
+    background-size: cover;
+    background-position: center; /* Center the image */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .image-content button {
+    font-size: 18px;
+    padding: 10px 20px;
+    background-color: #ED7B7B; /* Button background color */
+    color: #fff; /* Button text color */
+    border-radius: 5px; /* Button border radius */
+    cursor: pointer; /* Add cursor pointer on hover */
+  }
+  
+  /* Reset default margin/padding for body and HTML */
+  body, html {
+    margin: 0;
+    padding: 0;
+  }
+  

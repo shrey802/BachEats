@@ -1,23 +1,31 @@
 import React from 'react';
-import { Nav, Grid, Row, Col } from 'rsuite';
-import '../css/home.css';
-import HomeIcon from '@rsuite/icons/legacy/Home';
+import { Navbar, Nav, Container } from 'react-bootstrap';
+import '../css/home.css'; // Import your custom CSS file
 
-export default function HomeComp() {
+const HomeComponent = () => {
   return (
-    <div className='navbar-container'>
-      <Grid fluid>
-        <Row className='show-grid'>
-          <Col xs={24} sm={8}>
-            <Nav vertical>
-              <Nav.Item icon={<HomeIcon />}>Home</Nav.Item>
-              <Nav.Item>Contact</Nav.Item>
-              <Nav.Item>Products</Nav.Item>
-              <Nav.Item>About</Nav.Item>
+    <div className="main-container">
+      <Navbar expand="lg" variant="dark" className="custom-navbar">
+        <Container>
+          <Navbar.Brand href="#home">sweetstreaks</Navbar.Brand>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Link href="#products">Products</Nav.Link>
+              <Nav.Link href="/about">About</Nav.Link>
+              <Nav.Link href="/contact">Contact</Nav.Link>
             </Nav>
-          </Col>
-        </Row>
-      </Grid>
+            <Nav>
+              <Nav.Link href="#login">Logout</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+      <div className="image-content">
+        <button className="btn btn-primary">Buy Sweets</button>
+      </div> {/* Background image will be added via CSS */}
     </div>
   );
-}
+};
+
+export default HomeComponent;

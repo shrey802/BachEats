@@ -55,6 +55,14 @@ app.get('/login', (req, res) => {
   res.status(200);
 })
 
+app.get('/about', async(req, res) => {
+  res.status(200);
+})
+
+app.get('/contact', async(req, res) => {
+  res.status(200);
+})
+
 // we verify the user credentials to login the user
 app.post('/loginVerify', async(req, res) => {
   try {
@@ -79,6 +87,18 @@ app.post('/loginVerify', async(req, res) => {
     res.json(error);
   }
 })
+
+app.post('/submitQuery', async (req, res) => {
+  try {
+    const { email, query } = req.body;
+    const queryText = 'INSERT INTO queries (email, query) VALUES ($1, $2)';
+    await pool.query(queryText, [email, query]);
+    
+    res.status(201).json({ message: 'Query submitted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
