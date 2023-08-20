@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Form, Button } from "rsuite"
 import '../css/registration.css'
 import {useNavigate} from 'react-router-dom'
@@ -20,6 +20,13 @@ export default function Registration() {
     }));
   };
 
+  useEffect(() => {
+    const storedSession = localStorage.getItem('sessionUserID');
+    if (storedSession) {
+      navigate('/home');
+    }
+  }, [navigate]);
+
   const handleSubmit = async () => {
    
     try {
@@ -29,11 +36,12 @@ export default function Registration() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
+        credentials: 'include'
       });
   
       if (response.ok) {
         const data = await response.json();
-        console.log(data.message); // Print the server response
+        localStorage.setItem('sessionUserID', data.userID);
         navigate('/home');
       } else {
         console.error('Registration failed');

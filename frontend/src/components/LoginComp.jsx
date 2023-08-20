@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'rsuite';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate to handle redirection
 import '../css/login.css'
@@ -28,9 +28,14 @@ export default function LoginComp() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
+        credentials: 'include'
       });
 
       if (response.ok) {
+        const data = await response.json();
+
+        // Set the sessionUserID in localStorage
+        localStorage.setItem('sessionUserID', data.user.userid);
         // Redirect to the homepage on successful login
         history('/home');
       } else {
@@ -41,6 +46,13 @@ export default function LoginComp() {
       setErrorMessage('Error during login');
     }
   };
+
+  useEffect(() => {
+    const storedSession = localStorage.getItem('sessionUserID');
+    if (storedSession) {
+      history('/home');
+    }
+  }, [history]);
 
   return (
     <div className="login-container">

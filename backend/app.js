@@ -4,16 +4,28 @@ const cors = require('cors');
 const { Pool } = require('pg');
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt');
+const session = require('express-session');
 const app = express();
 const PORT = process.env.PORT || 5000;
 const corsOptions = {// Replace with your frontend's URL
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204,
+  origin: 'http://localhost:3000'
 };
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
 
+app.use(
+  session({
+    secret: 'richflex',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days in milliseconds
+    },
+  })
+);
 // Create a connection pool to the PostgreSQL database
 const pool = new Pool({
   user: 'shreyash',
@@ -38,8 +50,8 @@ app.post('/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const query = 'INSERT INTO users (userid, email, password, fullname, address, contactNumber) VALUES ($1, $2, $3, $4, $5, $6)';
     await pool.query(query, [userID, email, hashedPassword, fullname, address, contactNumber]);
-    
-    res.status(201).json({ message: 'User registered successfully' });
+    req.session.userID = userID;
+    res.status(201).json({ message: 'User registered successfully', userID });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -80,13 +92,23 @@ app.post('/loginVerify', async(req, res) => {
       // Password doesn't match
       return res.status(401).json({ message: 'Invalid credentials' });
     }
-
+    req.session.userID = user.userid;
     // Password matches, user is authenticated
     res.status(200).json({ message: 'Login successful', user });
   } catch (error) {
     res.json(error);
   }
 })
+
+
+app.post('/logout', async (req, res) => {
+  try {
+    req.session.destroy(); 
+    res.status(200).json({ message: 'Logged out successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 app.post('/submitQuery', async (req, res) => {
   try {
