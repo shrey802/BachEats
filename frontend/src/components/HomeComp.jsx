@@ -5,7 +5,9 @@ import '../css/home.css'; // Import your custom CSS file
 import {useNavigate} from 'react-router-dom'
 const HomeComponent = () => {
 const navigate = useNavigate();
-
+const gotoProd = async () =>{
+  navigate('/products');
+}
 const handleLogout = async() => {
   try {
     const response = await fetch('http://localhost:5000/logout', {
@@ -36,7 +38,7 @@ const handleLogout = async() => {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="#products">Products</Nav.Link>
+              <Nav.Link href="/products">Products</Nav.Link>
               <Nav.Link href="/about">About</Nav.Link>
               <Nav.Link href="/contact">Contact</Nav.Link>
             </Nav>
@@ -47,7 +49,7 @@ const handleLogout = async() => {
         </Container>
       </Navbar>
       <div className="image-content">
-        <button className="btn btn-primary">Buy Sweets</button>
+        <button className="btn btn-primary" onClick={gotoProd}>Buy Sweets</button>
       </div> {/* Background image will be added via CSS */}
     </div>
   );

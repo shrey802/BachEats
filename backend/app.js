@@ -122,6 +122,39 @@ app.post('/submitQuery', async (req, res) => {
   }
 });
 
+app.get('/products', (req, res) => {
+  res.status(200).json({message: 'Product Page Rendered'})
+})
+
+app.get('/getallSweets', async(req, res) => {
+  try {
+    const query = 'SELECT * FROM products';
+    const result = await pool.query(query);
+    const products = result.rows;
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+})
+
+app.get('/getSweet/:id', async(req, res) => {
+  try {
+    const { id } = req.params;
+    const query = 'SELECT * FROM products WHERE product_id = $1';
+    const result = await pool.query(query, [id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Sweet not found' });
+    }
+
+    const sweet = result.rows[0];
+    res.status(200).json(sweet);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+})
+
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

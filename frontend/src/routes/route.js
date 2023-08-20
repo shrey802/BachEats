@@ -6,6 +6,8 @@ import HomeComp from '../components/HomeComp';
 import LoginComp from '../components/LoginComp';
 import AboutComp from '../components/AboutComp';
 import ContactComp from '../components/ContactComp';
+import IndividualSweet from '../components/IndividualComp';
+import Products from '../components/ProductsComp';
 const routes = [
     {
         path: '/',
@@ -26,6 +28,14 @@ const routes = [
     {
         path: '/contact',
         element: <ContactComp />
+    },
+    {
+        path: '/products',
+        element: <Products/>
+    },
+    {
+        path: '/sweets/:id',
+        element: <IndividualSweet/>
     }
 ]
 export default routes;
