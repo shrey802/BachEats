@@ -1,50 +1,38 @@
-/* products.css */
-
 .product-container {
-    padding: 20px;
-  }
-  
-  .product-card {
-    border: none;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.2s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-  }
-  
-  .product-card:hover {
-    transform: translateY(-5px);
-  }
-  
-  .product-card img {
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .product-card .card-body {
-    padding: 15px;
-  }
-  
-  .product-card .card-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .product-card .card-text {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 10px;
-  }
-  
-  .product-card .price {
-    font-size: 16px;
-    font-weight: bold;
-  }
-  
-  .product-card button {
-    padding: 5px 10px;
-    font-size: 14px;
-  }
-  
+  padding: 20px;
+}
+
+.product-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: transform 0.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.product-card .card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.product-card .price {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#card-buttons .btn {
+  font-size: 12px;
+  padding: 0.25rem 0.5rem;
+}
+
+#card-buttons .btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+#card-buttons .btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
