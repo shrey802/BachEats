@@ -4,7 +4,7 @@ const cors = require('cors');
 const { Pool } = require('pg');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const app = express();
@@ -13,7 +13,7 @@ const corsOptions = {// Replace with your frontend's URL
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204,
-  origin: 'http://localhost:3000'
+  origin: 'http://localhost:3000',
 };
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
@@ -69,23 +69,23 @@ app.get('/login', (req, res) => {
   res.status(200);
 })
 
-app.post('/create-payment', async (req, res) => {
-  try {
-    const { amount, currency, description, source } = req.body;
+// app.post('/create-payment', async (req, res) => {
+//   try {
+//     const { amount, currency, description, source } = req.body;
 
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount,
-      currency,
-      description,
-      payment_method: source, // Payment source (e.g., card token or payment method)
-    });
+//     const paymentIntent = await stripe.paymentIntents.create({
+//       amount,
+//       currency,
+//       description,
+//       payment_method: source, // Payment source (e.g., card token or payment method)
+//     });
 
-    res.status(200).json({ clientSecret: paymentIntent.client_secret });
-  } catch (error) {
-    console.error('Error creating PaymentIntent:', error);
-    res.status(500).json({ error: error.message });
-  }
-});
+//     res.status(200).json({ clientSecret: paymentIntent.client_secret });
+//   } catch (error) {
+//     console.error('Error creating PaymentIntent:', error);
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 
 
@@ -175,6 +175,56 @@ app.get('/getSweet/:id', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 })
+
+app.get('/cart', (req, res) => {
+  res.status(200);
+})
+
+
+// Route to add a product to the cart
+app.post('/add-to-cart', async (req, res) => {
+  try {
+    const { sessionUserID, product_id, quantity } = req.body;
+    const user_id = sessionUserID; // Make sure this is a string (UUID)
+    
+    // Generate a UUID for cart_id
+    const cart_id = uuidv4();
+    // Insert the cart item into the cart table
+    const query = `
+      INSERT INTO cart (cart_id, product_id, user_id, quantity)
+      VALUES ($1, $2, $3::uuid, $4)
+    `;
+    await pool.query(query, [cart_id, product_id, user_id, quantity]);
+
+    res.status(201).json({ message: 'Product added to cart successfully' });
+  } catch (error) {
+    console.error('Error adding product to cart:', error);
+    res.status(500).json({ error: 'An error occurred while adding the product to cart' });
+  }
+});
+
+app.get('/get-cart', async (req, res) => {
+  try {
+    const user_id = req.query.userid; // Retrieve user ID from query parameter
+
+    const query = `
+      SELECT c.*, p.product_name, p.price, p.image_url, p.description
+      FROM cart c
+      INNER JOIN products p ON c.product_id = p.product_id
+      WHERE c.user_id = $1::uuid
+    `;
+    const result = await pool.query(query, [user_id]);
+    const cartContents = result.rows;
+
+    res.status(200).json(cartContents);
+  } catch (error) {
+    console.error('Error fetching cart contents:', error);
+    res.status(500).json({ error: 'An error occurred while fetching cart contents' });
+  }
+});
+
+
+
 
 
 app.listen(PORT, () => {

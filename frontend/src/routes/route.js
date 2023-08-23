@@ -8,10 +8,7 @@ import AboutComp from '../components/AboutComp';
 import ContactComp from '../components/ContactComp';
 import IndividualSweet from '../components/IndividualComp';
 import Products from '../components/ProductsComp';
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js'; // Import loadStripe
-
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY); // Load stripePromise
+import CartComp from '../components/CartComp';
 
 const routes = [
   {
@@ -36,15 +33,19 @@ const routes = [
   },
   {
     path: '/products',
-    element: (
-      <Elements stripe={stripePromise}>
-        <Products />
-      </Elements>
-    )
+    element: <Products />
   },
   {
     path: '/sweets/:id',
     element: <IndividualSweet />
+  },
+  {
+    path: '/cart',
+    element: <CartComp/>
+  },
+  {
+    path: '/cart/:userid',
+    element: <CartComp />
   }
 ];
 

@@ -2,6 +2,10 @@
   padding: 20px;
 }
 
+.cartview{
+  margin: 15px 0 15px 0;
+}
+
 .product-card {
   border: 1px solid #ddd;
   border-radius: 8px;
