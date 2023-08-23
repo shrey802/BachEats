@@ -224,7 +224,21 @@ app.get('/get-cart', async (req, res) => {
 });
 
 
+app.post('/remove-product', async (req,res) => {
+  try {
+    const {cart_id} = req.body;
+    const query = `
+      DELETE FROM cart
+      WHERE cart_id = $1
+    `;
+    await pool.query(query, [cart_id]);
 
+    res.status(200).json({ message: 'Product removed from cart successfully' });
+  } catch (error) {
+    console.error('Error removing product from cart:', error);
+    res.status(500).json({ error: 'An error occurred while removing the product from cart' });
+  }
+})
 
 
 app.listen(PORT, () => {

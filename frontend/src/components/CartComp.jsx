@@ -5,7 +5,7 @@ export default function CartComp() {
     const [cartProducts, setcartProducts] = useState([]);
     useEffect(() => {
         fetchcartProducts();
-    }, [])
+    }, [cartProducts])
     const fetchcartProducts = async () => {
         try {
 
@@ -33,11 +33,34 @@ export default function CartComp() {
         }
     }
     
+    const handleRemoveFromCart = async(cart_id) =>{
+        try {
+            const response = await fetch('http://localhost:5000/remove-product', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    cart_id: cart_id,
+                })
+            })
+            if (response.ok) {
+                console.log('Product removed from cart successfully');
+                // Update the cartProducts state to reflect the updated cart
+                setcartProducts(cartProducts.filter(product => product.cart_id !== cart_id));
+            } else {
+                console.error('Error removing item from cart');
+            }
+        } catch (error) {
+            console.error('Error removing item from cart:', error);
+        }
+    }
+
     return (
         <div className="cart-product-wrapper">
         {cartProducts.length > 0 ? (
           cartProducts.map((product) => (
-            <CartProduct key={product.cart_id} productcart={product} />
+            <CartProduct key={product.cart_id} productcart={product} onRemove={handleRemoveFromCart} />
           ))
         ) : (
           <p>Your cart is empty.</p>

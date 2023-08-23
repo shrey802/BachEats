@@ -2,7 +2,10 @@ import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 import '../css/cartproduct.css'; // Import the CartProduct CSS file
 
-const CartProduct = ({ productcart }) => {
+const CartProduct = ({ productcart, onRemove }) => {
+  function handleRemove(){
+    onRemove(productcart.cart_id)
+  }
   return (
     <div className="cart-product-card">
       <Card key={productcart.product_id}>
@@ -12,7 +15,7 @@ const CartProduct = ({ productcart }) => {
           <Card.Text className="description">{productcart.description.slice(0, 50)}...</Card.Text>
           <div className="d-flex justify-content-between align-items-center" id='cart-card-buttons'>
             <div className="price">${productcart.price}</div>
-            <Button variant="danger" size='sm'>
+            <Button variant="danger" size='sm' onClick={() => handleRemove(productcart.cart_id)}>
               Remove
             </Button>
             <Button variant="primary" size='sm'>
