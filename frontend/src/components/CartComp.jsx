@@ -1,11 +1,44 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react'
 import CartProduct from './CartProduct';
+import '../css/cartproduct.css'
 export default function CartComp() {
     const [cartProducts, setcartProducts] = useState([]);
     useEffect(() => {
         fetchcartProducts();
     }, [cartProducts])
+
+
+    const updateProductPrice = async (productId, newPrice) => {
+        try {
+            const response = await fetch('http://localhost:5000/update-product-price', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    product_id: productId,
+                    new_price: newPrice,
+                }),
+            });
+
+            if (response.ok) {
+                console.log(`Price for product ${productId} updated successfully`);
+                // Update the cartProducts state to reflect the updated price
+                setcartProducts(prevProducts =>
+                    prevProducts.map(product =>
+                        product.product_id === productId ? { ...product, price: newPrice } : product
+                    )
+                );
+            } else {
+                console.error(`Error updating price for product ${productId}`);
+            }
+        } catch (error) {
+            console.error('Error updating price:', error);
+        }
+    }
+
+
     const fetchcartProducts = async () => {
         try {
 
@@ -60,7 +93,7 @@ export default function CartComp() {
         <div className="cart-product-wrapper">
         {cartProducts.length > 0 ? (
           cartProducts.map((product) => (
-            <CartProduct key={product.cart_id} productcart={product} onRemove={handleRemoveFromCart} />
+            <CartProduct key={product.cart_id} productcart={product} onRemove={handleRemoveFromCart} onUpdatePrice={updateProductPrice}/>
           ))
         ) : (
           <p>Your cart is empty.</p>

@@ -77,7 +77,7 @@ const handleAddToCart = async (product) => {
                 <Card.Title>{product.product_name}</Card.Title>
                 <Card.Text>{product.description.slice(0, 50)}...</Card.Text>
                 <div className="d-flex justify-content-between align-items-center" id='card-buttons'>
-                  <div className="price">${product.price}</div>
+                  <div className="price">INR {product.price}</div>
                   <Button variant="primary" size='sm' onClick={() => handleAddToCart(product)}>
                     Add to Cart
                   </Button>

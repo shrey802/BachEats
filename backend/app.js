@@ -203,6 +203,26 @@ app.post('/add-to-cart', async (req, res) => {
   }
 });
 
+app.put('/update-product-price', async (req, res) => {
+  try {
+    const { product_id, new_price } = req.body;
+
+    const query = `
+      UPDATE products
+      SET price = $1
+      WHERE product_id = $2
+    `;
+    await pool.query(query, [new_price, product_id]);
+
+    res.status(200).json({ message: 'Product price updated successfully' });
+  } catch (error) {
+    console.error('Error updating product price:', error);
+    res.status(500).json({ error: 'An error occurred while updating the product price' });
+  }
+});
+
+
+
 app.get('/get-cart', async (req, res) => {
   try {
     const user_id = req.query.userid; // Retrieve user ID from query parameter
