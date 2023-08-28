@@ -12,7 +12,7 @@ Build a weekly subscription-based authentic Indian sweets delivery web app. <br/
 Start from locals (uni & school friends, family, family friends). Take orders and place orders with local vendors. Ship once a week. 
 
 # tech stack 🖥
-React, React Suite, Node with Express, Docker container running PostgreSQL with pgAdmin desktop mode, Azure services, Stripe/Razorpay.
+React, React Suite, React Bootstrap, Node with Express, Docker container running PostgreSQL with pgAdmin desktop mode, Azure services, Razorpay.
 
 # weeks of buildspace 🙌🏿
 Week-1: IDEA FORMATION/VALIDATION (done) <br/>
