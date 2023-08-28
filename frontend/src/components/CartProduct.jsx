@@ -4,8 +4,9 @@ import { Card, Button, Form } from 'react-bootstrap';
 import '../css/cartproduct.css'; // Import the CartProduct CSS file
 
 const CartProduct = ({ productcart, onRemove, onUpdatePriceAndQuantity }) => {
-  const [selectedQuantity, setSelectedQuantity] = useState(250);
-  const [oldprice, newprice] = useState();
+  const [selectedQuantity, setSelectedQuantity] = useState(productcart.quantity);
+  const calculatedPrice = productcart.price * (selectedQuantity / 250);
+  const formattedPrice = calculatedPrice.toFixed(2);
   function handleRemove(){
     onRemove(productcart.cart_id)
   }
@@ -16,20 +17,17 @@ const CartProduct = ({ productcart, onRemove, onUpdatePriceAndQuantity }) => {
         <Card.Img className="card-img-top" variant="top" src={productcart.image_url} />
         <Card.Body>
           <Card.Title>{productcart.product_name}</Card.Title>
+
           <Card.Text className="description">{productcart.description.slice(0, 50)}...</Card.Text>
+          <Card.Text className='price'>INR {formattedPrice}</Card.Text>
           <div className="d-flex justify-content-between align-items-center" id='cart-card-buttons'>
-            <div className="price">INR {oldprice ? oldprice : productcart.price}</div>
             <Form.Control 
               as="select"
               value={productcart.quantity} // Use the quantity from the cart product
               onChange={(e) => {
                 const newSelectedQuantity = parseInt(e.target.value);
-                setSelectedQuantity(newSelectedQuantity); // Update the local state
-            
-                // Calculate the new price based on the selected quantity
-                const calculatedPrice = productcart.price * (newSelectedQuantity / 250);
-                const formattedPrice = calculatedPrice.toFixed(2);
-                newprice(formattedPrice);
+                
+                setSelectedQuantity(newSelectedQuantity); // Update the local state            
                 // Update the quantity and price in the parent component
                 onUpdatePriceAndQuantity(productcart.cart_id, formattedPrice, newSelectedQuantity);
               }}  
@@ -43,13 +41,14 @@ const CartProduct = ({ productcart, onRemove, onUpdatePriceAndQuantity }) => {
               <option value={1750}>1750g</option>
               <option value={2000}>2000g</option>
             </Form.Control>
+            </div>
             <Button variant="danger" size='sm' onClick={() => handleRemove(productcart.cart_id)} className='btn'>
               Remove
             </Button>
             <Button variant="primary" size='sm' className='btn'>
               Pay
             </Button>
-          </div>
+          
         </Card.Body>
       </Card>
     </div>

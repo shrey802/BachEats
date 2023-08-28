@@ -162,7 +162,7 @@ app.get('/getallSweets', async (req, res) => {
 app.put('/update-cart-item', async (req, res) => {
   try {
     const { cart_id, quantity, price } = req.body;
-    console.log('Received data:', cart_id, quantity, price);
+    
     const updateQuery = `
       UPDATE cart
       SET quantity = $1, price = $2

@@ -1,6 +1,7 @@
 /* Default styles */
 .cart-product-card {
-  display: grid;
+  display: flex;
+  flex-direction: column; /* Arrange elements vertically */
   width: 100%;
   max-width: 300px;
   margin: 15px 15px 15px 15px;
@@ -25,12 +26,12 @@
 .cart-product-card .btn {
   font-size: 14px;
   padding: 0.25rem 0.5rem;
+  margin: 10px 5px 5px 5px; /* Add spacing between buttons */
 }
 
 .cart-product-card .btn-danger {
   background-color: #ff5252;
   border-color: #ff5252;
-  margin-right: 6px;
 }
 
 .cart-product-card .btn-primary {
@@ -40,20 +41,10 @@
 
 @media (max-width: 768px) {
   .cart-product-card {
-    width: 90%; /* Adjust this value to control card width */
+    width: 90%;
     margin: 20px auto 20px;
   }
 
-  .cart-product-wrapper {
-    justify-content: center;
-  }
-
-  .cart-product-card {
-    flex: 0 0 calc(50% - 20px);
-    max-width: calc(50% - 20px);
-  }
-
-  /* Stack buttons vertically */
   .cart-product-card .btn {
     display: block;
     margin-top: 6px;
