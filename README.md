@@ -19,6 +19,6 @@ Week-1: IDEA FORMATION/VALIDATION (done) <br/>
 Week-2: BUILDING TOY VERSION OF SWEETSTREAKS
 
 # stuff remaining
-- Integrate payment for production purposes <br/>
-- Cart view responsive <br/>
-- Quantity updation feature
+- Integrate payment for production purposes. <br/>
+- Cart view (product) responsive. <br/>
+- Mail for order confirmation.
