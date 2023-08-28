@@ -47,7 +47,8 @@ const handleAddToCart = async (product) => {
       body: JSON.stringify({
         sessionUserID,
         product_id: product.product_id,
-        quantity: 250, // Default quantity in grams
+        quantity: 250,
+        price: product.price // Default quantity in grams
       }),
     });
 

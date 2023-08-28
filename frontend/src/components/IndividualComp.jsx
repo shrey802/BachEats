@@ -29,7 +29,7 @@ const IndividualSweet = () => {
         <div className="sweet-details">
           <div className="sweet-header">
             <h2 className="sweet-title">{sweet.product_name}</h2>
-            <p className="sweet-price">Price: ${sweet.price}</p>
+            <p className="sweet-price">Price: INR {sweet.price}</p>
           </div>
           <img src={sweet.image_url} alt={sweet.product_name} className="sweet-image" />
           <p className="sweet-description">{sweet.description}</p>

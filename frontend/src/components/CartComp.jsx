@@ -9,35 +9,42 @@ export default function CartComp() {
     }, [cartProducts])
 
 
-    const updateProductPrice = async (productId, newPrice) => {
+    const handleUpdatedQuantityandPrice = async (cartID, newPrice, newQuantity) => {
         try {
-            const response = await fetch('http://localhost:5000/update-product-price', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    product_id: productId,
-                    new_price: newPrice,
-                }),
+          const response = await fetch('http://localhost:5000/update-cart-item', {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              cart_id: cartID,
+              quantity: newQuantity,
+              price: newPrice,
+            }),
+          });
+      
+          if (response.ok) {
+            console.log('Product quantity and price updated successfully');
+            const updatedCartProducts = cartProducts.map((product) => {
+              if (product.cart_id === cartID) {
+                return {
+                  ...product,
+                  quantity: newQuantity,
+                  price: newPrice,
+                };
+              }
+              console.log(product);
+              return product;
             });
-
-            if (response.ok) {
-                console.log(`Price for product ${productId} updated successfully`);
-                // Update the cartProducts state to reflect the updated price
-                setcartProducts(prevProducts =>
-                    prevProducts.map(product =>
-                        product.product_id === productId ? { ...product, price: newPrice } : product
-                    )
-                );
-            } else {
-                console.error(`Error updating price for product ${productId}`);
-            }
+            setcartProducts(updatedCartProducts);
+          } else {
+            console.error('Error updating product quantity and price');
+          }
         } catch (error) {
-            console.error('Error updating price:', error);
+          console.error('Error updating product quantity and price:', error);
         }
-    }
-
+      };
+      
 
     const fetchcartProducts = async () => {
         try {
@@ -93,7 +100,11 @@ export default function CartComp() {
         <div className="cart-product-wrapper">
         {cartProducts.length > 0 ? (
           cartProducts.map((product) => (
-            <CartProduct key={product.cart_id} productcart={product} onRemove={handleRemoveFromCart} onUpdatePrice={updateProductPrice}/>
+            <CartProduct key={product.cart_id} 
+            productcart={product}
+            onRemove={handleRemoveFromCart}
+            onUpdatePriceAndQuantity={handleUpdatedQuantityandPrice}
+            />
           ))
         ) : (
           <p>Your cart is empty.</p>

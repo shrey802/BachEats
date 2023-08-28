@@ -159,6 +159,22 @@ app.get('/getallSweets', async (req, res) => {
   }
 })
 
+app.put('/update-cart-item', async (req, res) => {
+  try {
+    const { cart_id, quantity, price } = req.body;
+    console.log('Received data:', cart_id, quantity, price);
+    const updateQuery = `
+      UPDATE cart
+      SET quantity = $1, price = $2
+      WHERE cart_id = $3
+    `;
+    await pool.query(updateQuery, [quantity, price, cart_id]);
+    res.status(200).json({ message: 'Product quantity and price updated successfully' });
+  } catch (error) {
+    console.log(error);
+  }
+})
+
 app.get('/getSweet/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -184,17 +200,17 @@ app.get('/cart', (req, res) => {
 // Route to add a product to the cart
 app.post('/add-to-cart', async (req, res) => {
   try {
-    const { sessionUserID, product_id, quantity } = req.body;
+    const { sessionUserID, product_id, quantity, price } = req.body;
     const user_id = sessionUserID; // Make sure this is a string (UUID)
-    
+
     // Generate a UUID for cart_id
     const cart_id = uuidv4();
     // Insert the cart item into the cart table
     const query = `
-      INSERT INTO cart (cart_id, product_id, user_id, quantity)
-      VALUES ($1, $2, $3::uuid, $4)
+      INSERT INTO cart (cart_id, product_id, user_id, quantity, price)
+      VALUES ($1, $2, $3::uuid, $4, $5)
     `;
-    await pool.query(query, [cart_id, product_id, user_id, quantity]);
+    await pool.query(query, [cart_id, product_id, user_id, quantity, price]);
 
     res.status(201).json({ message: 'Product added to cart successfully' });
   } catch (error) {
@@ -202,25 +218,6 @@ app.post('/add-to-cart', async (req, res) => {
     res.status(500).json({ error: 'An error occurred while adding the product to cart' });
   }
 });
-
-app.put('/update-product-price', async (req, res) => {
-  try {
-    const { product_id, new_price } = req.body;
-
-    const query = `
-      UPDATE products
-      SET price = $1
-      WHERE product_id = $2
-    `;
-    await pool.query(query, [new_price, product_id]);
-
-    res.status(200).json({ message: 'Product price updated successfully' });
-  } catch (error) {
-    console.error('Error updating product price:', error);
-    res.status(500).json({ error: 'An error occurred while updating the product price' });
-  }
-});
-
 
 
 app.get('/get-cart', async (req, res) => {
@@ -244,9 +241,9 @@ app.get('/get-cart', async (req, res) => {
 });
 
 
-app.post('/remove-product', async (req,res) => {
+app.post('/remove-product', async (req, res) => {
   try {
-    const {cart_id} = req.body;
+    const { cart_id } = req.body;
     const query = `
       DELETE FROM cart
       WHERE cart_id = $1
