@@ -170,6 +170,32 @@ app.post('/logout', async (req, res) => {
   }
 });
 
+app.post('/get-user-details', async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    const getUserQuery = `
+      SELECT email, contactnumber
+      FROM users
+      WHERE userid = $1
+    `;
+
+    const userResult = await pool.query(getUserQuery, [userId]);
+
+    if (userResult.rowCount === 1) {
+      const userDetails = userResult.rows[0];
+      res.status(200).json(userDetails);
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error fetching user details:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+
 app.post('/submitQuery', async (req, res) => {
   try {
     const { email, query } = req.body;
