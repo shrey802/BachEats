@@ -1,16 +1,16 @@
 /* eslint-disable no-unused-vars */
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Card, Button, Form } from 'react-bootstrap';
 import '../css/cartproduct.css'; // Import the CartProduct CSS file
 
 const CartProduct = ({ productcart, onRemove, onUpdatePriceAndQuantity }) => {
   const [selectedQuantity, setSelectedQuantity] = useState(productcart.quantity);
-  const calculatedPrice = productcart.price * (selectedQuantity / 250);
-  const formattedPrice = calculatedPrice.toFixed(2);
-  function handleRemove(){
+
+  function handleRemove() {
     onRemove(productcart.cart_id)
   }
- 
+  const calculatedPrice = productcart.price * (selectedQuantity / 250);
+  const formattedPrice = calculatedPrice.toFixed(2);
   return (
     <div className="cart-product-card">
       <Card key={productcart.product_id}>
@@ -21,16 +21,22 @@ const CartProduct = ({ productcart, onRemove, onUpdatePriceAndQuantity }) => {
           <Card.Text className="description">{productcart.description.slice(0, 50)}...</Card.Text>
           <Card.Text className='price'>INR {formattedPrice}</Card.Text>
           <div className="d-flex justify-content-between align-items-center" id='cart-card-buttons'>
-            <Form.Control 
+            <Form.Control
               as="select"
-              value={productcart.quantity} // Use the quantity from the cart product
+              value={productcart.quantity}
               onChange={(e) => {
                 const newSelectedQuantity = parseInt(e.target.value);
-                
-                setSelectedQuantity(newSelectedQuantity); // Update the local state            
-                // Update the quantity and price in the parent component
-                onUpdatePriceAndQuantity(productcart.cart_id, formattedPrice, newSelectedQuantity);
-              }}  
+                const newCalculatedPrice = productcart.price * (newSelectedQuantity / 250);
+                const newFormattedPrice = newCalculatedPrice.toFixed(2);
+
+                console.log('Before update: cart_id:', productcart.cart_id, 'newFormattedPrice:', newFormattedPrice, 'newSelectedQuantity:', newSelectedQuantity);
+
+                setSelectedQuantity(newSelectedQuantity);
+
+                onUpdatePriceAndQuantity(productcart.cart_id, newFormattedPrice, newSelectedQuantity);
+
+                console.log('After update: cart_id:', productcart.cart_id, 'newFormattedPrice:', newFormattedPrice, 'newSelectedQuantity:', newSelectedQuantity);
+              }}
             >
               <option value={250}>250g</option>
               <option value={500}>500g</option>
@@ -41,14 +47,14 @@ const CartProduct = ({ productcart, onRemove, onUpdatePriceAndQuantity }) => {
               <option value={1750}>1750g</option>
               <option value={2000}>2000g</option>
             </Form.Control>
-            </div>
-            <Button variant="danger" size='sm' onClick={() => handleRemove(productcart.cart_id)} className='btn'>
-              Remove
-            </Button>
-            <Button variant="primary" size='sm' className='btn'>
-              Pay
-            </Button>
-          
+          </div>
+          <Button variant="danger" size='sm' onClick={() => handleRemove(productcart.cart_id)} className='btn'>
+            Remove
+          </Button>
+          <Button variant="primary" size='sm' className='btn'>
+            Pay
+          </Button>
+
         </Card.Body>
       </Card>
     </div>

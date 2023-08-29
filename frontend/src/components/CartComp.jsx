@@ -9,41 +9,41 @@ export default function CartComp() {
     }, [cartProducts])
 
 
-    const handleUpdatedQuantityandPrice = async (cartID, newPrice, newQuantity) => {
-        try {
-          const response = await fetch('http://localhost:5000/update-cart-item', {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              cart_id: cartID,
-              quantity: newQuantity,
-              price: newPrice,
-            }),
+    const handleUpdatedQuantityandPrice = async (cartID, newformattedPrice, newformattedQuantity) => {
+      try {
+        const response = await fetch('http://localhost:5000/update-cart-item', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            cart_id: cartID,
+            quantity: newformattedQuantity,
+            price: newformattedPrice,
+          }),
+        });
+    
+        if (response.ok) {
+          console.log(newformattedPrice);
+          const updatedCartProducts = cartProducts.map((product) => {
+            if (product.cart_id === cartID) {
+              return {
+                ...product,
+                quantity: newformattedQuantity,
+                price: newformattedPrice, // Make sure newPrice is the correct value
+              };
+            }
+            return product;
           });
-      
-          if (response.ok) {
-            console.log('Product quantity and price updated successfully');
-            const updatedCartProducts = cartProducts.map((product) => {
-              if (product.cart_id === cartID) {
-                return {
-                  ...product,
-                  quantity: newQuantity,
-                  price: newPrice,
-                };
-              }
-              console.log(product);
-              return product;
-            });
-            setcartProducts(updatedCartProducts);
-          } else {
-            console.error('Error updating product quantity and price');
-          }
-        } catch (error) {
-          console.error('Error updating product quantity and price:', error);
+          setcartProducts(updatedCartProducts);
+        } else {
+          console.error('Error updating product quantity and price');
         }
-      };
+      } catch (error) {
+        console.error('Error updating product quantity and price:', error);
+      }
+    };
+    
       
 
     const fetchcartProducts = async () => {
