@@ -2,10 +2,10 @@
 import React, { useState } from 'react';
 import { Card, Button, Form } from 'react-bootstrap';
 import '../css/cartproduct.css'; // Import the CartProduct CSS file
-
+import {useNavigate} from 'react-router-dom'
 const CartProduct = ({ productcart, onRemove, onUpdatePriceAndQuantity }) => {
   const [selectedQuantity, setSelectedQuantity] = useState(productcart.quantity);
-
+const navigate = useNavigate();
   function handleRemove() {
     onRemove(productcart.cart_id)
   }
@@ -51,7 +51,7 @@ const CartProduct = ({ productcart, onRemove, onUpdatePriceAndQuantity }) => {
           <Button variant="danger" size='sm' onClick={() => handleRemove(productcart.cart_id)} className='btn'>
             Remove
           </Button>
-          <Button variant="primary" size='sm' className='btn'>
+          <Button variant="primary" size='sm' className='btn' onClick={() => navigate(`/payment/${formattedPrice}`)}>
             Pay
           </Button>
 

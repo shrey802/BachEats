@@ -4,8 +4,9 @@ const cors = require('cors');
 const { Pool } = require('pg');
 const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
-// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const Razorpay = require('razorpay');
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 const session = require('express-session');
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -42,6 +43,11 @@ app.get('/', (req, res) => {
   res.status(201);
 });
 
+app.get('/payment', (req,res) => {
+  res.status(200);
+})
+
+
 // store and create an account
 app.post('/register', async (req, res) => {
   try {
@@ -68,25 +74,6 @@ app.get('/home', (req, res) => {
 app.get('/login', (req, res) => {
   res.status(200);
 })
-
-// app.post('/create-payment', async (req, res) => {
-//   try {
-//     const { amount, currency, description, source } = req.body;
-
-//     const paymentIntent = await stripe.paymentIntents.create({
-//       amount,
-//       currency,
-//       description,
-//       payment_method: source, // Payment source (e.g., card token or payment method)
-//     });
-
-//     res.status(200).json({ clientSecret: paymentIntent.client_secret });
-//   } catch (error) {
-//     console.error('Error creating PaymentIntent:', error);
-//     res.status(500).json({ error: error.message });
-//   }
-// });
-
 
 
 app.get('/about', async (req, res) => {
@@ -119,6 +106,57 @@ app.post('/loginVerify', async (req, res) => {
     res.status(200).json({ message: 'Login successful', user });
   } catch (error) {
     res.json(error);
+  }
+})
+
+app.post('/create-order', async (req, res) => {
+  try {
+    const instance = new Razorpay({
+      key_id: process.env.KEY_ID,
+      key_secret: process.env.KEY_SECRET
+    });
+
+    const { orderAmount } = req.body;
+    const orderOptions = {
+      amount: orderAmount * 100, // Convert to paisa (100 times)
+      currency: 'INR',
+      receipt: `order_${Date.now()}`, // Generate a unique receipt
+      payment_capture: 1, // Auto-capture payment
+    };
+
+    instance.orders.create(orderOptions, (error, order) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({ message: 'Error creating order' });
+      }
+      res.json({ order_id: order.id }); // Sending just the order ID as the response
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Error creating order' });
+  }
+});
+
+
+app.post('/verifypayment', (req, res) => {
+  try {
+    const {
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature
+    } = req.body;
+    const sign = razorpay_order_id + " | " + razorpay_payment_id;
+
+    const expectedSign = crypto.createHmac("sha256", `${process.env.KEY_SECRET}`).update(sign.toString()).digest('hex')
+    if(razorpay_signature === expectedSign){
+      return res.status(200).json({success:'success'})
+    }else{
+      return res.status(400).json({error: 'error'});
+    }
+
+  } catch (error) {
+    console.log(error);
   }
 })
 
@@ -158,6 +196,11 @@ app.get('/getallSweets', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 })
+
+app.get('/success', (req, res) => {
+  res.status(200);
+})
+
 
 app.put('/update-cart-item', async (req, res) => {
   try {

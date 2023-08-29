@@ -9,7 +9,9 @@ import ContactComp from '../components/ContactComp';
 import IndividualSweet from '../components/IndividualComp';
 import Products from '../components/ProductsComp';
 import CartComp from '../components/CartComp';
-
+import PaymentComp from '../components/PaymentComp';
+import Paymentsuccess from '../components/Paymentsuccess';
+import Paymentfail from '../components/Paymentfail';
 const routes = [
   {
     path: '/',
@@ -46,6 +48,18 @@ const routes = [
   {
     path: '/cart/:userid',
     element: <CartComp />
+  },
+  {
+    path: '/payment/:orderAmount',
+    element: <PaymentComp/>
+  },
+  {
+    path: '/success',
+    element: <Paymentsuccess/>
+  },
+  {
+    path: '/fail',
+    element: <Paymentfail/>
   }
 ];
 
