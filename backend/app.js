@@ -38,12 +38,22 @@ const pool = new Pool({
   database: 'sweetDB'
 });
 
+
+const transporter = nodemailer.createTransport({
+  service: 'Gmail', // E.g., Gmail, Outlook, etc.
+  auth: {
+    user: 'shreypingle23@gmail.com',
+    pass: 'Hackerlavdekanpm23#',
+  },
+});
+
+
 // get the registration page
 app.get('/', (req, res) => {
   res.status(201);
 });
 
-app.get('/payment', (req,res) => {
+app.get('/payment', (req, res) => {
   res.status(200);
 })
 
@@ -149,10 +159,10 @@ app.post('/verifypayment', (req, res) => {
     const sign = razorpay_order_id + " | " + razorpay_payment_id;
 
     const expectedSign = crypto.createHmac("sha256", `${process.env.KEY_SECRET}`).update(sign.toString()).digest('hex')
-    if(razorpay_signature === expectedSign){
-      return res.status(200).json({success:'success'})
-    }else{
-      return res.status(400).json({error: 'error'});
+    if (razorpay_signature === expectedSign) {
+      return res.status(200).json({ success: 'success' })
+    } else {
+      return res.status(400).json({ error: 'error' });
     }
 
   } catch (error) {
@@ -173,7 +183,7 @@ app.post('/logout', async (req, res) => {
 app.post('/get-user-details', async (req, res) => {
   try {
     const { userId } = req.body;
-console.log(userId);
+    console.log(userId);
     const getUserQuery = `
       SELECT email, contactnumber
       FROM users
@@ -267,9 +277,9 @@ app.post('/store-order', async (req, res) => {
 });
 
 
-app.post('/getproductdata', async(req, res) => {
+app.post('/getproductdata', async (req, res) => {
   try {
-    const {productID} = req.body;
+    const { productID } = req.body;
     const wholeQuery = `
     SELECT * FROM cart
     WHERE product_id = $1
@@ -286,6 +296,7 @@ app.post('/getproductdata', async(req, res) => {
     console.log(error);
   }
 })
+
 
 
 
@@ -314,7 +325,7 @@ app.post('/getdataofuser', async (req, res) => {
 app.put('/update-cart-item', async (req, res) => {
   try {
     const { cart_id, quantity, price } = req.body;
-    
+
     const updateQuery = `
       UPDATE cart
       SET quantity = $1, price = $2
