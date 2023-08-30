@@ -173,7 +173,7 @@ app.post('/logout', async (req, res) => {
 app.post('/get-user-details', async (req, res) => {
   try {
     const { userId } = req.body;
-
+console.log(userId);
     const getUserQuery = `
       SELECT email, contactnumber
       FROM users
@@ -223,10 +223,93 @@ app.get('/getallSweets', async (req, res) => {
   }
 })
 
-app.get('/success', (req, res) => {
-  res.status(200);
+// Assuming you have the required imports and pool setup
+
+app.post('/store-order', async (req, res) => {
+  try {
+    const order_id = uuidv4();
+    const {
+      userID,
+      productID,
+      productPrice,
+      quantity,
+      address,
+      contact,
+    } = req.body;
+
+    const insertQuery = `
+      INSERT INTO orders (user_id, product_id, order_id, product_price, quantity, address, contact)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING *;
+    `;
+
+    const values = [
+      userID,
+      productID,
+      order_id,
+      productPrice,
+      quantity,
+      address,
+      contact
+    ];
+
+    const result = await pool.query(insertQuery, values);
+
+    if (result.rows.length > 0) {
+      res.status(201).json({ message: 'Order stored successfully' });
+    } else {
+      res.status(500).json({ message: 'Failed to store order' });
+    }
+  } catch (error) {
+    console.error('Error storing order:', error);
+    res.status(500).json({ message: 'An error occurred while storing order' });
+  }
+});
+
+
+app.post('/getproductdata', async(req, res) => {
+  try {
+    const {productID} = req.body;
+    const wholeQuery = `
+    SELECT * FROM cart
+    WHERE product_id = $1
+    `
+    const result = await pool.query(wholeQuery, [productID]);
+    const sweetdata = result.rows[0];
+
+    if (!sweetdata) {
+      return res.status(404).json({ error: 'product not found' });
+    }
+
+    res.status(200).json(sweetdata);
+  } catch (error) {
+    console.log(error);
+  }
 })
 
+
+
+app.post('/getdataofuser', async (req, res) => {
+  try {
+    const { userID } = req.body;
+    const theWholeQuery = `
+      SELECT * FROM users
+      WHERE userid = $1
+    `;
+
+    const result = await pool.query(theWholeQuery, [userID]);
+    const sweetUser = result.rows[0];
+
+    if (!sweetUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json(sweetUser);
+  } catch (error) {
+    console.error('Error fetching user details:', error);
+    res.status(500).json({ error: 'An error occurred while fetching user details' });
+  }
+});
 
 app.put('/update-cart-item', async (req, res) => {
   try {

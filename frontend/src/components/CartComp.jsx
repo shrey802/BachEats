@@ -24,7 +24,7 @@ export default function CartComp() {
         });
     
         if (response.ok) {
-          console.log(newformattedPrice);
+         
           const updatedCartProducts = cartProducts.map((product) => {
             if (product.cart_id === cartID) {
               return {
