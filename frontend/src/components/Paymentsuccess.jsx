@@ -85,6 +85,7 @@ export default function Success() {
       if (response.ok) {
         // Order stored successfully, redirect to success page
         navigate('/products');
+        console.log('stored order successfully');
       } else {
         // Handle error here, show an error message or redirect to an error page
         navigate('/fail');

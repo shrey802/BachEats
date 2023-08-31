@@ -258,6 +258,7 @@ app.post('/store-order', async (req, res) => {
 
     if (result.rows.length > 0) {
       res.status(201).json({ message: 'Order stored successfully' });
+      console.log('stored');
     } else {
       res.status(500).json({ message: 'Failed to store order' });
     }
