@@ -39,15 +39,6 @@ const pool = new Pool({
 });
 
 
-const transporter = nodemailer.createTransport({
-  service: 'Gmail', // E.g., Gmail, Outlook, etc.
-  auth: {
-    user: 'shreypingle23@gmail.com',
-    pass: 'Hackerlavdekanpm23#',
-  },
-});
-
-
 // get the registration page
 app.get('/', (req, res) => {
   res.status(201);
