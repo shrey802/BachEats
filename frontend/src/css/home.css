@@ -1,62 +1,95 @@
-/* HomeComponent.css */
+/* Reset default margin/padding for body and HTML */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* Set height to cover the entire viewport */
+}
+
+/* Custom Navbar Styles */
 .custom-navbar {
-    background-color: #C4C1A4; /* Dark background color */
-    /* Add a border at the bottom for separation */
-  }
-  
-  .custom-navbar .navbar-brand {
-    font-size: 28px; /* Increase the font size of the brand name */
-    color: #EA1179; /* Set the text color of the brand */
-  }
-  
-  .custom-navbar .nav-link {
-    color: #C70039; /* Set the text color of the links */
-    font-weight: 500; /* Add some font weight for better readability */
-    transition: color 0.3s, background-color 0.3s, border-radius 0.3s; /* Add smooth transitions */
-    padding: 10px 15px; /* Add padding to the links */
-  }
-  
-  .custom-navbar .nav-link:hover {
-    color: #343a40;
-    text-decoration: underline;
-  }
-  
-  .custom-navbar .navbar-toggler-icon {
-    background-color: #C70039; /* Change the color of the toggle icon */
-    border-radius: 4px; /* Rounded corners for the icon */
-  }
-  
-  .custom-navbar .navbar-toggler {
-    border-color: #f8f9fa; /* Change the border color of the toggle button */
-  }
-  
-  .main-container {
-    position: relative;
-  }
-  
-  .image-content {
-    flex: 1;
-    height: 100vh; /* Set the height to 100% of the viewport height */
-    background-image: url('https://images.unsplash.com/photo-1609540969455-ad5ea19be121?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80');
-    background-size: cover;
-    background-position: center; /* Center the image */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .image-content button {
-    font-size: 18px;
-    padding: 10px 20px;
-    background-color: #ED7B7B; /* Button background color */
-    color: #fff; /* Button text color */
-    border-radius: 5px; /* Button border radius */
-    cursor: pointer; /* Add cursor pointer on hover */
-  }
-  
-  /* Reset default margin/padding for body and HTML */
-  body, html {
-    margin: 0;
-    padding: 0;
-  }
-  
+  background-color: #20232a; /* Dark background color */
+}
+
+.custom-navbar .navbar-brand {
+  font-size: 24px;
+  color: #61dafb; /* Text color for the brand name */
+}
+
+.custom-navbar .nav-link {
+  color: #ffffff; /* Text color for the links */
+  font-weight: 500; /* Font weight for better readability */
+  transition: color 0.3s; /* Smooth color transition */
+}
+
+.custom-navbar .nav-link:hover {
+  color: #61dafb; /* Change link color on hover */
+}
+
+.custom-navbar .navbar-toggler-icon {
+  background-color: #ffffff; /* Toggle icon color */
+}
+
+/* Main Container Styles */
+.main-container {
+  min-height: 100vh; /* Minimum height to cover the viewport */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Brand Logo Styles */
+.brand-logo {
+  width: 100px; /* Adjust logo size as needed */
+  height: auto;
+}
+
+/* Content Styles */
+.content {
+  text-align: center;
+  color: black; /* Text color for the content */
+  padding: 20px;
+}
+
+/* Main Heading Styles */
+.main-heading {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Subheading Styles */
+.sub-heading {
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+/* Buy Sweets Button Styles */
+.btn-buy-sweets {
+  font-size: 18px;
+  padding: 12px 24px;
+  background-color: #ff5722; /* Orange background color */
+  color: #ffffff; /* White text color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-buy-sweets:hover {
+  background-color: #ff4500; /* Darker orange on hover */
+}
+
+/* Tagline Styles */
+.tagline {
+  font-size: 24px;
+  margin-top: 20px;
+}
+
+/* Background Image Styles */
+body {
+  background-image: url('https://img.freepik.com/premium-vector/bright-background-with-sweet-candy-with-gradient-background-vector-illustration_176503-665.jpg'); /* Replace with your background image URL */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* Fixed background for scrolling content */
+}
