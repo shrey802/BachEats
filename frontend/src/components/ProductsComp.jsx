@@ -69,6 +69,9 @@ const handleAddToCart = async (product) => {
   return (
     <div className="product-container">
       <Button variant="primary" size='sm' onClick={gotocart} className='cartview'>View Cart</Button>
+      <Button variant="secondary" size='sm' className='homebtn' onClick={() => navigate('/home')}>
+          Back to Home
+        </Button>
       <Row xs={1} sm={2} md={4} className="g-4">
         {products.map((product) => (
           <Col key={product.product_id}>

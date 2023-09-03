@@ -6,6 +6,24 @@
   margin: 20px 0 20px 0;
 }
 
+.back-button {
+  background-color: #007bff; /* Change the background color */
+  color: white; /* Change the text color */
+  border: none; /* Remove the border */
+  padding: 10px 20px; /* Add padding to the button */
+  font-size: 16px; /* Adjust the font size */
+  cursor: pointer; /* Add a pointer cursor on hover */
+  border-radius: 5px; 
+  position: absolute;
+  top: 20px; /* Adjust the top value as needed */
+  left: 20px;/* Add some border radius for rounded corners */
+}
+
+.back-button:hover {
+  background-color: #0056b3; /* Change the background color on hover */
+}
+
+
 .sweet-details {
   max-width: 600px;
   padding: 20px;

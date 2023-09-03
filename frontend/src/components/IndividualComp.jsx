@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import '../css/individual-sweet.css'; // Import your custom CSS for styling
 
 const IndividualSweet = () => {
   const { id } = useParams();
   const [sweet, setSweet] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     async function fetchSweet() {
       try {
@@ -23,8 +23,15 @@ const IndividualSweet = () => {
     fetchSweet();
   }, [id]);
 
+function handleBackToProducts(){
+  navigate('/products');
+}
+
   return (
     <div className="individual-sweet-container">
+      <button onClick={handleBackToProducts} className="back-button">
+        Back to Products
+      </button>
       {sweet ? (
         <div className="sweet-details">
           <div className="sweet-header">

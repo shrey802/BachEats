@@ -1,4 +1,4 @@
-/* Default styles */
+/* Default styles for larger screens */
 .cart-product-card {
   display: flex;
   flex-direction: column; /* Arrange elements vertically */
@@ -6,6 +6,21 @@
   max-width: 300px;
   margin: 15px 15px 15px 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.backback{
+  margin: 15px 0px 0px 15px;
+  border: none;
+  background-color: blueviolet;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+}
+
+.cart-product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Display up to 4 products in each row */
+  gap: 15px; /* Adjust spacing between products as needed */
 }
 
 .cart-product-card .card-img-top {
@@ -39,10 +54,16 @@
   border-color: #007bff;
 }
 
+/* Media query for mobile responsiveness */
 @media (max-width: 768px) {
   .cart-product-card {
+    display: block; /* Change to block display for one below the other */
     width: 90%;
     margin: 20px auto 20px;
+  }
+
+  .cart-product-grid {
+    display: block; /* Change to block display for one below the other */
   }
 
   .cart-product-card .btn {
