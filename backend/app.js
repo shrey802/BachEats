@@ -1,3 +1,4 @@
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -224,7 +225,7 @@ app.get('/getallSweets', async (req, res) => {
   }
 })
 
-// Assuming you have the required imports and pool setup
+
 
 app.post('/store-order', async (req, res) => {
   try {

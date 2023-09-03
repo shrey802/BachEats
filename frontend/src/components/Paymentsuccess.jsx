@@ -84,7 +84,9 @@ export default function Success() {
 
       if (response.ok) {
         // Order stored successfully, redirect to success page
+        
         navigate('/products');
+        alert('Your order was successfully stored and placed! Thank You')
         console.log('stored order successfully');
       } else {
         // Handle error here, show an error message or redirect to an error page
@@ -92,6 +94,7 @@ export default function Success() {
       }
     } catch (error) {
       console.error('Error storing order:', error);
+
       // Handle error here
     }
   };
