@@ -4,6 +4,7 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 import '../css/home.css'; // Import your custom CSS file
 import { useNavigate } from 'react-router-dom'
 const HomeComponent = () => {
+  // has all the homecomponent information
   const navigate = useNavigate();
   const gotoProd = async () => {
     navigate('/products');

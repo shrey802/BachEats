@@ -11,6 +11,8 @@ export default function CartComp() {
   }, [cartProducts])
 
 const navigate = useNavigate();
+
+// handle the updated quantity and price 
   const handleUpdatedQuantityandPrice = async (cartID, newformattedPrice, newformattedQuantity) => {
     try {
       const response = await fetch('http://localhost:5000/update-cart-item', {
@@ -47,7 +49,7 @@ const navigate = useNavigate();
   };
 
 
-
+// fetch all the products from cart
   const fetchcartProducts = async () => {
     try {
 
@@ -75,6 +77,7 @@ const navigate = useNavigate();
     }
   }
 
+  // remove items from cart
   const handleRemoveFromCart = async (cart_id) => {
     try {
       const response = await fetch('http://localhost:5000/remove-product', {
@@ -98,6 +101,7 @@ const navigate = useNavigate();
     }
   }
 
+  // redirect to another route
 function handleredirect(){
   navigate('/products')
 }
@@ -106,7 +110,7 @@ function handleredirect(){
     <div className="cart-product-wrapper">
 
       <button className='backback' onClick={handleredirect}>back to products</button>
-
+    {/* render all the products added to cart */}
       {cartProducts.length > 0 ? (
         <div className="cart-product-grid">
           {cartProducts.map((product) => (

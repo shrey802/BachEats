@@ -3,6 +3,7 @@ import { Form, Button } from 'rsuite';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate to handle redirection
 import '../css/login.css'
 export default function LoginComp() {
+  // login data 
   const [formData, setFormData] = useState({
     email: '',
     password: '',

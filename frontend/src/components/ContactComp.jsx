@@ -7,6 +7,8 @@ export default function ContactComp() {
     query: ''
   });
 
+// has all the contact component info
+
   const handleInputChange = (name, value) => {
     setFormData((prevData) => ({
       ...prevData,

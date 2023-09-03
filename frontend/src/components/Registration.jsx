@@ -5,6 +5,7 @@ import '../css/registration.css'
 import {useNavigate} from 'react-router-dom'
 import { Link } from 'react-router-dom';
 export default function Registration() {
+  // all the registration information
   const [formData, setformData] = useState({
     email: '',
     password: '',

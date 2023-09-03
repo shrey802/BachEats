@@ -49,6 +49,7 @@ export default function PaymentComp() {
 
   useEffect(() => {
     async function fetchOrderId() {
+      // Payment order   
       try {
         const response = await fetch(`http://localhost:5000/create-order`, {
           method: 'POST',

@@ -1,4 +1,4 @@
-
+// ALL THE PACKAGES USED IN BACKEND ARE HERE
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -9,9 +9,15 @@ const Razorpay = require('razorpay');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const session = require('express-session');
+
+// SETTING EXPRESS APP
 const app = express();
+
+// SETTING PORT
 const PORT = process.env.PORT || 5000;
-const corsOptions = {// Replace with your frontend's URL
+
+// SETTING ALL THE CONFIGURATIONS FOR BACKEND
+const corsOptions = {
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204,
@@ -20,6 +26,7 @@ const corsOptions = {// Replace with your frontend's URL
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
 
+// CREATING SESSIONS FOR AUTHENTICATION
 app.use(
   session({
     secret: 'richflex',
@@ -30,7 +37,7 @@ app.use(
     },
   })
 );
-// Create a connection pool to the PostgreSQL database
+// CONNECTION POOL TO CONNECT TO POSTGRES DB
 const pool = new Pool({
   user: 'shreyash',
   password: 'utopiathegoat',
@@ -45,12 +52,13 @@ app.get('/', (req, res) => {
   res.status(201);
 });
 
+// get the payment page
 app.get('/payment', (req, res) => {
   res.status(200);
 })
 
 
-// store and create an account
+// CREATE USER ACCOUNT & STORE IN TABLE
 app.post('/register', async (req, res) => {
   try {
     const { email, password, fullname, address, contactNumber } = req.body;
@@ -77,11 +85,12 @@ app.get('/login', (req, res) => {
   res.status(200);
 })
 
-
+// get the about page here
 app.get('/about', async (req, res) => {
   res.status(200);
 })
 
+// get the contact page here
 app.get('/contact', async (req, res) => {
   res.status(200);
 })
@@ -111,6 +120,7 @@ app.post('/loginVerify', async (req, res) => {
   }
 })
 
+// we create a new order here 
 app.post('/create-order', async (req, res) => {
   try {
     const instance = new Razorpay({
@@ -140,7 +150,7 @@ app.post('/create-order', async (req, res) => {
   }
 });
 
-
+// verifying the payment method
 app.post('/verifypayment', (req, res) => {
   try {
     const {
@@ -162,7 +172,7 @@ app.post('/verifypayment', (req, res) => {
   }
 })
 
-
+// logs the user out of the web application
 app.post('/logout', async (req, res) => {
   try {
     req.session.destroy();
@@ -172,6 +182,7 @@ app.post('/logout', async (req, res) => {
   }
 });
 
+// get all the user details for usecase
 app.post('/get-user-details', async (req, res) => {
   try {
     const { userId } = req.body;
@@ -197,7 +208,7 @@ app.post('/get-user-details', async (req, res) => {
 });
 
 
-
+// route for submitting the user query
 app.post('/submitQuery', async (req, res) => {
   try {
     const { email, query } = req.body;
@@ -210,10 +221,13 @@ app.post('/submitQuery', async (req, res) => {
   }
 });
 
+
+// get all the products on this page
 app.get('/products', (req, res) => {
   res.status(200).json({ message: 'Product Page Rendered' })
 })
 
+// get all the sweets on this route
 app.get('/getallSweets', async (req, res) => {
   try {
     const query = 'SELECT * FROM products';
@@ -225,8 +239,7 @@ app.get('/getallSweets', async (req, res) => {
   }
 })
 
-
-
+// store the paid order in table
 app.post('/store-order', async (req, res) => {
   try {
     const order_id = uuidv4();
@@ -269,7 +282,7 @@ app.post('/store-order', async (req, res) => {
   }
 });
 
-
+// get all the products data for usecases
 app.post('/getproductdata', async (req, res) => {
   try {
     const { productID } = req.body;
@@ -291,8 +304,7 @@ app.post('/getproductdata', async (req, res) => {
 })
 
 
-
-
+// another route for getting data
 app.post('/getdataofuser', async (req, res) => {
   try {
     const { userID } = req.body;
@@ -315,6 +327,7 @@ app.post('/getdataofuser', async (req, res) => {
   }
 });
 
+// update the product data (quantity & cost)
 app.put('/update-cart-item', async (req, res) => {
   try {
     const { cart_id, quantity, price } = req.body;
@@ -331,6 +344,7 @@ app.put('/update-cart-item', async (req, res) => {
   }
 })
 
+// get a specific sweet using it's id
 app.get('/getSweet/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -348,6 +362,7 @@ app.get('/getSweet/:id', async (req, res) => {
   }
 })
 
+// get the cart
 app.get('/cart', (req, res) => {
   res.status(200);
 })
@@ -375,7 +390,7 @@ app.post('/add-to-cart', async (req, res) => {
   }
 });
 
-
+// get all the cart items
 app.get('/get-cart', async (req, res) => {
   try {
     const user_id = req.query.userid; // Retrieve user ID from query parameter
@@ -396,7 +411,7 @@ app.get('/get-cart', async (req, res) => {
   }
 });
 
-
+// remove products from cart
 app.post('/remove-product', async (req, res) => {
   try {
     const { cart_id } = req.body;
@@ -413,7 +428,7 @@ app.post('/remove-product', async (req, res) => {
   }
 })
 
-
+// server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

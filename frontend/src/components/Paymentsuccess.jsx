@@ -11,7 +11,7 @@ export default function Success() {
   const [userData, setUserData] = useState(null);
   const [productData, setProductData] = useState(null);
   const [isReadyToCreateOrder, setIsReadyToCreateOrder] = useState(false);
-
+  // fetch all the user data
   useEffect(() => {
     async function fetchAllUserData() {
       try {
@@ -34,7 +34,7 @@ export default function Success() {
   }, [userID]);
 
 
-
+//fetch product data  
   useEffect(() => {
     async function fetchProductData() {
       try {
@@ -60,6 +60,7 @@ export default function Success() {
     }
   }, [userData, productData]);
 
+  // store order after payment is successful
   const handleStoreOrder = async () => {
     try {
       if (!isReadyToCreateOrder) {

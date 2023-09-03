@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import '../css/individual-sweet.css'; // Import your custom CSS for styling
 
 const IndividualSweet = () => {
+  // handles all the individual sweet information
   const { id } = useParams();
   const [sweet, setSweet] = useState(null);
   const navigate = useNavigate();

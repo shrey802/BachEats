@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 const CartProduct = ({ productcart, onRemove, onUpdatePriceAndQuantity }) => {
   const [selectedQuantity, setSelectedQuantity] = useState(productcart.quantity);
   const navigate = useNavigate();
+  // handle all the cart products this is rendered in CartComponent to render each product and pass the values as props
   function handleRemove() {
     onRemove(productcart.cart_id)
   }

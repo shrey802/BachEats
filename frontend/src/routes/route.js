@@ -12,6 +12,7 @@ import CartComp from '../components/CartComp';
 import PaymentComp from '../components/PaymentComp';
 import Paymentsuccess from '../components/Paymentsuccess';
 import Paymentfail from '../components/Paymentfail';
+// has all the routes for frontend
 const routes = [
   {
     path: '/',

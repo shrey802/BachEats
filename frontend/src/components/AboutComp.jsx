@@ -1,6 +1,7 @@
 import React from 'react'
 
 export default function AboutComp() {
+    // this is about component
     return (
         <div style={{textAlign: 'center', margin: '15px 15px 0 15px'}}>
             <p>

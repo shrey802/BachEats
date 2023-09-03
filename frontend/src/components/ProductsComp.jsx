@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const ProductsComponent = () => {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]); // State to store cart items
-
+  // handles all the product component  
   useEffect(() => {
     fetchProducts();
   }, []);
